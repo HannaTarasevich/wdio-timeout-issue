@@ -10,7 +10,64 @@ const pages = {
 
 Given(/^I am on the (\w+) page$/, async (page) => {
     await pages[page].open()
-    return null
+
+    // accept cookies and switch to the iframe
+    await browser.pause(8000)
+    await $('#onetrust-accept-btn-handler').click()
+    browser.scroll(0, 500)
+    await browser.pause(8000)
+    const iframe = await $("[src = '/kendo-angular-ui/components/dropdowns/examples/multiselect/basic_usage/?theme=default-ocean-blue&themeVersion=7.0.2']")
+    await browser.switchToFrame(iframe);
+    await browser.execute(() => {
+        let toRemove = document.querySelector('kendo-taglist')
+        toRemove.remove();
+    });
+
+    // change style to repro the error
+    const el1 = await $(".k-input-values")
+    await browser.execute(
+        // assign style to elem in the browser
+        (el) => {
+            el.style.overflow = 'hidden'
+        },
+        el1);
+
+    const el2 = await $("kendo-searchbar")
+    await browser.execute(
+        // assign style to elem in the browser
+        (el) => {
+            el.style.display = 'none'
+            el.style.overflow = 'hidden'
+        },
+        el2);
+
+    const el3 = await $(".k-input-inner")
+    await browser.execute(
+        // assign style to elem in the browser
+        (el) => {
+            el.style.overflow = 'hidden'
+        },
+        el3);
+
+    const el4 = await $(".k-clear-value")
+    await browser.execute(
+        // assign style to elem in the browser
+        (el) => {
+            el.style.overflow = 'hidden'
+        },
+        el4);
+
+    const el5 = await $(".k-icon-wrapper-host")
+    await browser.execute(
+        // assign style to elem in the browser
+        (el) => {
+            el.style.overflow = 'hidden'
+        },
+        el5);
+
+
+    // try to click on visible and clickable element, with previous approach (before using the script) this action works
+    await $("kendo-multiselect").waitForDisplayed()
 });
 
 When(/^I login with (\w+) and (.+)$/, async (username, password) => {
