@@ -11,7 +11,7 @@ const pages = {
 Given(/^I am on the (\w+) page$/, async (page) => {
     await pages[page].open()
 
-    // accept cookies and switch to the iframe
+    // accept cookies and switch to the iframe (remove one element to simplify the reproducible example)
     await browser.pause(8000)
     await $('#onetrust-accept-btn-handler').click()
     browser.scroll(0, 500)
@@ -36,6 +36,7 @@ Given(/^I am on the (\w+) page$/, async (page) => {
     await browser.execute(
         // assign style to elem in the browser
         (el) => {
+            // it is crucial, if el.style.display = 'none' is not provided - it will pass as expected
             el.style.display = 'none'
             el.style.overflow = 'hidden'
         },
