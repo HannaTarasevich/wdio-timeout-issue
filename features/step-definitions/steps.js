@@ -67,7 +67,8 @@ Given(/^I am on the (\w+) page$/, async (page) => {
         el5);
 
 
-    // try to click on visible and clickable element, with previous approach (before using the script) this action works
+    // try to find element as displayed element, with previous approach (before using the script) this action is working and returns true
+    // moreover, click option works fine
     await $("kendo-multiselect").waitForDisplayed()
 });
 
